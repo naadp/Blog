@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yao.dao.SubscriberDao">
+
+	<resultMap type="com.yao.entity.Subscriber" id="SubscriberResult">
+		<result property="id" column="id"/>
+		<result property="email" column="email"/>
+		<result property="name" column="name"/>
+		<result property="uuid" column="uuid"/>
+		<result property="state" column="state"/>
+	</resultMap>
+
+	<insert id="addSubscriber" useGeneratedKeys="true" keyProperty="id" parameterType="com.yao.entity.Subscriber">
+			insert into subscriber values(null,#{email},#{name},#{uuid},#{state})
+	</insert>
+
+	<!--注意啊：这里只是设置下状态位，而且是设置为2. 不能设为其他的啊！-->
+	<update id="deleteSubscriber" parameterType="Map">
+		update subscriber set state = 2 where uuid=#{uuid} and email=#{email}
+	</update>
+
+	<!--只能修改邮箱, 其他的不能修改-->
+	<update id="updateSubscriber" parameterType="com.yao.entity.Subscriber">
+		update subscriber
+		<set>
+			<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+			<if test="state!=null and state!=''">
+				state=#{state},
+			</if>
+		</set>
+		where uuid=#{uuid} and email=#{email}
+	</update>
+
+	<update id="modifyEmail" parameterType="Map">
+		update subscriber
+		<set>
+			<if test="email!=null and email!=''">
+				email=#{email},
+			</if>
+		</set>
+		where uuid=#{uuid}
+	</update>
+
+	<update id="activeSubscriberByUUID" parameterType="String">
+		update subscriber set state=1 where uuid=#{uuid}
+
+	</update>
+
+	<select id="getAll" resultMap="SubscriberResult">
+		select * from subscriber where state = 1
+	</select>
+
+	<select id="getSubscriberByEmail" parameterType="String" resultMap="SubscriberResult">
+		select * from subscriber where email=#{email}
+	</select>
+
+	<select id="getSubscriberByUUID" parameterType="String" resultMap="SubscriberResult">
+		select * from subscriber where uuid=#{uuid}
+	</select>
+
+	<select id="getSubscriberByUUIDAndEmail" parameterType="Map" resultMap="SubscriberResult">
+		select * from subscriber where uuid=#{uuid} and email=#{email}
+	</select>
+</mapper> 

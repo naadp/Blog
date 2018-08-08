@@ -1,0 +1,61 @@
+server:
+  port: 80
+  context-path: /Blog
+#jsp 支持
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+      driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+      url: jdbc:mysql://localhost:3306/db_blog?useUnicode=true&characterEncoding=UTF-8              # 数据库名称
+      username: root
+      password: root
+      dbcp2:
+        min-idle: 5                                           # 数据库连接池的最小维持连接数
+        initial-size: 5                                       # 初始化连接数
+        max-total: 5                                          # 最大连接数
+        max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+
+#关闭默认模板引擎
+  thymeleaf:
+    cache: false
+    enabled: false
+  rabbitmq:
+    addresses: 120.78.210.140
+    username: guest
+    password: guest
+    port: 5672
+    virtual-host: /
+
+
+mail.myEmailAccount: 18832017306@163.com
+  
+mail.myEmailPassword: 29.:*8yao1_8ld7
+  
+mail.myEmailSMTPHost: smtp.163.com
+  
+mail.receiveMailAccount: naadp@sina.com
+
+mail.href: http://localhost:8080/Blog/subscriber/check
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+#  type-aliases-package: com.yao.entity    # 所有Entity别名类所在包
+  mapper-locations:
+  - classpath:mybatis/mapper/**/*.xml
+logging:
+  level:
+   com.yao.dao: debug                      # mapper映射文件
+
+qq.qqName: naadp
+qq.qqId: 2614BB84C3F055E0328F5EDAC59D492A
+
+
+
+
+
+
+
+  
